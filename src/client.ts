@@ -553,6 +553,30 @@ export class OpenClawClient extends EventEmitter {
   };
 
   /**
+   * Skills management helpers.
+   *
+   * Note: These RPC method names are inferred from the CLI behavior.
+   * If the Gateway doesn't expose them, use hasMethod() to check availability
+   * before calling, and fall back to CLI calls if needed.
+   */
+  readonly skills = {
+    /**
+     * Get skill status report.
+     */
+    status: async (): Promise<Record<string, unknown> | undefined> => {
+      const res = await this.request("skills.status", {});
+      return res.payload;
+    },
+    /**
+     * List available skills.
+     */
+    list: async (): Promise<Record<string, unknown> | undefined> => {
+      const res = await this.request("skills.list", {});
+      return res.payload;
+    },
+  };
+
+  /**
    * Send a raw protocol request and wait for the response.
    */
   async request(method: string, params: Record<string, unknown> = {}): Promise<ProtocolResponse> {

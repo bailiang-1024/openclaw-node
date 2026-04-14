@@ -204,6 +204,38 @@ await client.pairing.approve("telegram", "ABC123");
 
 > **Note:** Pairing RPC methods are inferred from CLI behavior and may not be available on all Gateway versions. Use `client.request()` with error handling, or check availability before calling.
 
+### Skills
+
+Manage and query skills available on the Gateway:
+
+```typescript
+// Get skill status report (loaded, failed, etc.)
+const status = await client.skills.status();
+console.log(status);
+// {
+//   loaded: 5,
+//   failed: 1,
+//   skills: [
+//     { name: "skill-creator", status: "loaded" },
+//     { name: "pdf", status: "loaded" },
+//     { name: "xlsx", status: "failed", error: "Missing dependency" }
+//   ]
+// }
+
+// List all available skills
+const skills = await client.skills.list();
+console.log(skills);
+// {
+//   skills: [
+//     { name: "skill-creator", description: "MANDATORY tool for creating SKILLs" },
+//     { name: "pdf", description: "Skill for working with PDF documents" },
+//     { name: "xlsx", description: "Skill for working with Excel files" }
+//   ]
+// }
+```
+
+> **Note:** Skills RPC methods are inferred from CLI behavior and may not be available on all Gateway versions. Use `client.request()` with error handling, or check availability before calling.
+
 ### Events
 
 ```typescript
