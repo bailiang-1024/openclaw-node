@@ -566,14 +566,7 @@ export class OpenClawClient extends EventEmitter {
     status: async (): Promise<Record<string, unknown> | undefined> => {
       const res = await this.request("skills.status", {});
       return res.payload;
-    },
-    /**
-     * List available skills.
-     */
-    list: async (): Promise<Record<string, unknown> | undefined> => {
-      const res = await this.request("skills.list", {});
-      return res.payload;
-    },
+    }
   };
 
   /**
