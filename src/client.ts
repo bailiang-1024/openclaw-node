@@ -115,14 +115,14 @@ export class OpenClawClient extends EventEmitter {
     if (this.options.token && this.options.url.startsWith("ws://")) {
       process.emitWarning(
         "Connecting with authentication token over insecure ws:// transport. " +
-          "Use wss:// in production to prevent token interception.",
+        "Use wss:// in production to prevent token interception.",
         "InsecureTransportWarning",
       );
     }
 
     this.deviceIdentity = loadOrCreateDeviceIdentity(
       this.options.deviceIdentityPath ||
-        `${process.env.HOME || "/tmp"}/.openclaw/device-identity.json`,
+      `${process.env.HOME || "/tmp"}/.openclaw/device-identity.json`,
     );
   }
 
@@ -566,8 +566,20 @@ export class OpenClawClient extends EventEmitter {
     status: async (): Promise<Record<string, unknown> | undefined> => {
       const res = await this.request("skills.status", {});
       return res.payload;
-    }
+    },
+    detail: async (): Promise<Record<string, unknown> | undefined> => {
+      const res = await this.request("skills.detail", {});
+      return res.payload;
+    },
   };
+
+
+  readonly agents = {
+    list: async (): Promise<Record<string, unknown> | undefined> => {
+      const res = await this.request("agents.list", {});
+      return res.payload;
+    }
+  }
 
   /**
    * Send a raw protocol request and wait for the response.
@@ -651,14 +663,14 @@ export class OpenClawClient extends EventEmitter {
 
     const device = this.deviceIdentity
       ? buildSignedDevice({
-          identity: this.deviceIdentity,
-          nonce: challenge.nonce,
-          clientId,
-          clientMode: "backend",
-          role,
-          scopes,
-          token: this.options.token,
-        })
+        identity: this.deviceIdentity,
+        nonce: challenge.nonce,
+        clientId,
+        clientMode: "backend",
+        role,
+        scopes,
+        token: this.options.token,
+      })
       : undefined;
 
     const params: ConnectParams = {

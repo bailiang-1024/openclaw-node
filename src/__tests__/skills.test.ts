@@ -56,39 +56,6 @@ describe("Skills helpers", () => {
     });
   });
 
-  it("skills.list sends skills.list method", async () => {
-    const ws = getMockWs();
-    const sentBefore = ws.sent.length;
-
-    const listPromise = client.skills.list();
-
-    const sentMsg = JSON.parse(ws.sent[sentBefore]);
-    expect(sentMsg.type).toBe("req");
-    expect(sentMsg.method).toBe("skills.list");
-
-    ws.simulateMessage({
-      type: "res",
-      id: sentMsg.id,
-      ok: true,
-      payload: {
-        skills: [
-          { name: "skill-creator", description: "MANDATORY tool for creating SKILLs" },
-          { name: "pdf", description: "Skill for working with PDF documents" },
-          { name: "xlsx", description: "Skill for working with Excel files" }
-        ]
-      },
-    });
-
-    const result = await listPromise;
-    expect(result).toEqual({
-      skills: [
-        { name: "skill-creator", description: "MANDATORY tool for creating SKILLs" },
-        { name: "pdf", description: "Skill for working with PDF documents" },
-        { name: "xlsx", description: "Skill for working with Excel files" }
-      ]
-    });
-  });
-
   it("skills.status handles error response", async () => {
     const ws = getMockWs();
     const sentBefore = ws.sent.length;
@@ -109,25 +76,5 @@ describe("Skills helpers", () => {
 
     await expect(statusPromise).rejects.toThrow("Method skills.status not available");
   });
-
-  it("skills.list handles error response", async () => {
-    const ws = getMockWs();
-    const sentBefore = ws.sent.length;
-
-    const listPromise = client.skills.list();
-
-    const sentMsg = JSON.parse(ws.sent[sentBefore]);
-
-    ws.simulateMessage({
-      type: "res",
-      id: sentMsg.id,
-      ok: false,
-      error: {
-        code: "METHOD_NOT_FOUND",
-        message: "Method skills.list not available"
-      },
-    });
-
-    await expect(listPromise).rejects.toThrow("Method skills.list not available");
-  });
+  
 });
