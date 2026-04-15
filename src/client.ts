@@ -563,20 +563,20 @@ export class OpenClawClient extends EventEmitter {
     /**
      * Get skill status report.
      */
-    status: async (): Promise<Record<string, unknown> | undefined> => {
-      const res = await this.request("skills.status", {});
+    status: async (query?: Record<string, unknown>): Promise<Record<string, unknown> | undefined> => {
+      const res = await this.request("skills.status", { query });
       return res.payload;
     },
-    detail: async (): Promise<Record<string, unknown> | undefined> => {
-      const res = await this.request("skills.detail", {});
+    detail: async (query?: Record<string, unknown>): Promise<Record<string, unknown> | undefined> => {
+      const res = await this.request("skills.detail", { query });
       return res.payload;
     },
   };
 
 
   readonly agents = {
-    list: async (): Promise<Record<string, unknown> | undefined> => {
-      const res = await this.request("agents.list", {});
+    list: async (query?: Record<string, unknown>): Promise<Record<string, unknown> | undefined> => {
+      const res = await this.request("agents.list", { query });
       return res.payload;
     }
   }
